@@ -2,6 +2,17 @@ const loadAllPhone=async (status,searchText)=>{
 
   const res= await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText?searchText:"iphone"}`)
   const data=await res.json()
+
+  const displayContainer = document.getElementById("phone-container");
+  displayContainer.innerHTML = ""; // Clear previous results
+
+  // Check if there are no phones returned
+  if (!data.data || data.data.length === 0) {
+    // Display no data found message
+    displayContainer.innerHTML = `<p class="text-center text-3xl font-bold">No data found</p>`;
+    return; // Exit the function
+  }
+
   if(status){
     DisplayAllPhone(data.data)
   }
@@ -16,6 +27,7 @@ const loadAllPhone=async (status,searchText)=>{
 const DisplayAllPhone=(phones)=>{
   const displayContainer=document.getElementById("phone-container")
   displayContainer.innerHTML=""
+  
   phones.forEach(phone => {
     const div=document.createElement("div")
     div.innerHTML=`
